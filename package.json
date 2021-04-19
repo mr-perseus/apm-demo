@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "hbs": "^4.1.2",
     "http-errors": "^1.8.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "prom-client": "^13.1.0"
   }
 }

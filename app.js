@@ -1,6 +1,10 @@
 // Init Elastic
 const apm = require('elastic-apm-node').start();
 
+// Import Prometheus
+const { collectDefaultMetrics, register } = require('prom-client');
+collectDefaultMetrics();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,6 +15,16 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// Prometheus Metrics Route
+app.get('/metrics', async (_req, res) => {
+  try {
+      res.set('Content-Type', register.contentType);
+      res.end(await register.metrics());
+  } catch (err) {
+      res.status(500).end(err);
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
